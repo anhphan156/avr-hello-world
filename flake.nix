@@ -15,11 +15,12 @@
     devShells."${system}".default = pkgs.mkShell {
       buildInputs = with pkgs; [
         pkgsCross.avr.buildPackages.gcc
+        pkgsCross.avr.buildPackages.gdb
         avrdude
       ];
       shellHook = ''
-        #export CPATH=$CPATH:$(awk '{ print $2 }' ${pkgs.pkgsCross.avr.buildPackages.gcc}/nix-support/libc-cflags)
-				exec zsh
+            #export CPATH=$CPATH:$(awk '{ print $2 }' ${pkgs.pkgsCross.avr.buildPackages.gcc}/nix-support/libc-cflags)
+        exec zsh
       '';
     };
   };
