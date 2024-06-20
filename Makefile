@@ -15,7 +15,8 @@ out.hex: out
 	avr-objcopy -O ihex -R .eeprom $< $@
 
 install: out.hex
-	avrdude -F -V -c arduino -p ATMEGA328p -P ${USBPORT} -b 115200 -U flash:w:$<
+	#avrdude -F -V -c arduino -p ATMEGA328p -P ${USBPORT} -b 115200 -U flash:w:$<
+	avrdude -c stk500v1 -p ATMEGA328p -P ${USBPORT} -b 19200 -U flash:w:$<
 
 clean:
 	rm main.o out
