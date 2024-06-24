@@ -5,11 +5,14 @@ all:out
 
 USBPORT:=/dev/ttyACM0
 
-out: main.o
-	$(CC) $(CFLAGS) $< -o $@
+out: main.o other.o
+	$(CC) $(CFLAGS) main.o other.o -o $@
 
 main.o: main.c
 	$(CC) $(CFLAGS) -g -c -o main.o main.c	
+
+other.o: ./exercises/lcd.c
+	$(CC) $(CFLAGS) -g -c -o $@ $<
 
 out.hex: out
 	avr-objcopy -O ihex -R .eeprom $< $@
@@ -19,4 +22,4 @@ install: out.hex
 	avrdude -c stk500v1 -p ATMEGA328p -P ${USBPORT} -b 19200 -U flash:w:$<
 
 clean:
-	rm main.o out
+	rm *.o out
